@@ -1,0 +1,37 @@
+﻿<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:controls="using:Gui.Controls">
+
+    <Style Selector="ToggleButton">
+        <Setter Property="Content" Value="&lt;" />
+        <Setter Property="Background" Value="White" />
+    </Style>
+
+    <Style Selector="ToggleButton:checked">
+        <Setter Property="Content" Value="≤" />
+        <Setter Property="Background" Value="White" />
+    </Style>
+
+    <Style Selector="controls|FunctionPartDefinition">
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border>
+                    <Grid ColumnDefinitions="*,Auto,Auto,Auto,*" RowDefinitions="Auto,Auto">
+                        <NumericUpDown AllowSpin="False" ShowButtonSpinner="False" Margin="1" Value="0"
+                                       Grid.Row="0" Grid.Column="0" />
+                        <ToggleButton Grid.Row="0" Grid.Column="1" />
+                        <TextBlock FontSize="18" HorizontalAlignment="Stretch" VerticalAlignment="Center"
+                                   Grid.Row="0" Grid.Column="2">
+                            x
+                        </TextBlock>
+                        <ToggleButton Grid.Row="0" Grid.Column="3" />
+                        <NumericUpDown AllowSpin="False" ShowButtonSpinner="False" Margin="1" Value="0"
+                                       Grid.Row="0" Grid.Column="4" />
+                        <TextBox TextWrapping="NoWrap" Margin="1" Text="" Watermark="Функция"
+                                 Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5" />
+                    </Grid>
+                </Border>
+            </ControlTemplate>
+        </Setter>
+    </Style>
+</Styles>

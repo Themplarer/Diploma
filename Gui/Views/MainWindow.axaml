@@ -1,0 +1,46 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:Gui.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:plot="clr-namespace:ScottPlot.Avalonia;assembly=ScottPlot.Avalonia"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="Gui.Views.MainWindow"
+        x:DataType="vm:MainWindowViewModel"
+        Title="Function Approximator">
+
+    <Design.DataContext>
+        <vm:MainWindowViewModel />
+    </Design.DataContext>
+
+    <Grid ColumnDefinitions="200, 0.1, *">
+        <StackPanel Grid.Column="0">
+            <WrapPanel>
+                <TextBlock FontWeight="Bold" Text="Отклонение равно:" />
+                <TextBlock x:Name="Distance" />
+            </WrapPanel>
+            <Button Content="Рассчитать" Click="Update" />
+
+            <WrapPanel>
+                <TextBlock FontWeight="Bold" Text="Функция f" />
+                <TextBlock x:Name="SourceVariation" />
+            </WrapPanel>
+            <ScrollViewer>
+                <StackPanel x:Name="SourceFunctionDefinitions" />
+            </ScrollViewer>
+
+            <WrapPanel>
+                <TextBlock FontWeight="Bold" Text="Функция g" />
+                <TextBlock x:Name="ApproximationVariation" />
+            </WrapPanel>
+            <ScrollViewer>
+                <StackPanel x:Name="ApproximationFunctionDefinitions" />
+            </ScrollViewer>
+        </StackPanel>
+
+        <GridSplitter Background="#bbb" ResizeDirection="Columns" Grid.Column="1" />
+
+        <plot:AvaPlot x:Name="Plot" Grid.Column="2" />
+    </Grid>
+
+</Window>
