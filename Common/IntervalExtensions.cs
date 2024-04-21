@@ -12,4 +12,11 @@ public static class IntervalExtensions
 			if (interval.IsInclude(new Interval<T>(x)))
 				yield return x;
 	}
+
+	public static Interval<T> Close<T>(this Interval<T> interval)
+		where T : IComparable<T>, IEquatable<T> =>
+		interval
+			.Combine(new Interval<T>(interval.LeftValue))
+			.Combine(new Interval<T>(interval.RightValue))
+			.Single();
 }

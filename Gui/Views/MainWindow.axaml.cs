@@ -2,8 +2,10 @@ using Application;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
+using Common;
 using Domain;
 using Gui.Controls;
+using ScottPlot;
 
 // ReSharper disable SpecifyACultureInStringConversionExplicitly
 
@@ -70,13 +72,27 @@ public partial class MainWindow : Window
 	private void Draw(PiecewiseFunction sourceFunction, PiecewiseFunction approximationFunction)
 	{
 		Plot.Plot.Clear();
-		Plot.Plot.Add.Function(sourceFunction.Evaluate);
-		Plot.Plot.Add.Function(approximationFunction.Evaluate);
 
 		var (left, right, _) = sourceFunction.Range;
+		Plot.Plot.Axes.SquareUnits();
 		Plot.Plot.Axes.SetLimits((double) left, (double) right);
-		Plot.Plot.Axes.AutoScale();
+
+		Draw(sourceFunction, Colors.DarkCyan, 2);
+		Draw(approximationFunction, Colors.DarkRed, 1);
+
 		Plot.Refresh();
+	}
+
+	private void Draw(PiecewiseFunction sourceFunction, Color color, float lineWidth)
+	{
+		foreach (var (interval, (function, _)) in sourceFunction.Parts)
+		{
+			var xs = interval.Close().Split(Constants.PlotStepSize).ToArray();
+			var ys = xs.Select(x => function((double) x)).ToArray();
+			var scatter = xs.Length == 1 ? Plot.Plot.Add.ScatterPoints(xs, ys) : Plot.Plot.Add.ScatterLine(xs, ys);
+			scatter.Color = color;
+			scatter.LineWidth = lineWidth;
+		}
 	}
 
 	private PiecewiseFunction ParseFunction(Panel functionDefinitions) =>

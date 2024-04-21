@@ -5,6 +5,8 @@ namespace Application;
 
 public class VariationCalculator
 {
+	public double GetVariation(FunctionPart functionPart) => GetVariation(new PiecewiseFunction(new[] {functionPart}));
+
 	public double GetVariation(PiecewiseFunction piecewiseFunction) =>
 		piecewiseFunction.Parts
 			.SelectMany(GetExtremes, (f, x) => f.Function.Method((double) x))
