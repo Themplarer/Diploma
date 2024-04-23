@@ -43,33 +43,31 @@ public partial class MainWindow : Window
 			AppendPart(functionDefinitions, updateAction);
 	}
 
-	private void AppendPart(Panel functionDefinitions, EventHandler<KeyEventArgs> updateAction)
+	private void AppendPart(Panel functionDefinitions, EventHandler<KeyEventArgs>? updateAction = null)
 	{
 		var functionDefinition = new FunctionPartDefinition();
 		functionDefinition.KeyDown += updateAction;
 		functionDefinitions.Children.Add(functionDefinition);
 	}
 
-	private void Update(object? sender, RoutedEventArgs e)
+	private void UpdateApproximation(object? sender, RoutedEventArgs e)
 	{
 		var sourceFunction = ParseFunction(SourceFunctionDefinitions);
-		var sourceVariation = GetVariation(sourceFunction);
+		var sourceVariation = _variationCalculator.GetVariation(sourceFunction);
 		var approximationFunction = _approximationBuilder.BuildLinearApproximation(sourceFunction, sourceVariation / 4);
 
 		SourceVariation.Text = sourceVariation.ToString();
-		ApproximationVariation.Text = GetVariation(approximationFunction).ToString();
+		ApproximationVariation.Text = _variationCalculator.GetVariation(approximationFunction).ToString();
 		Distance.Text = _distanceEvaluator.GetDistance(sourceFunction, approximationFunction).ToString();
 
 		if (!sourceFunction.IsCorrect || !approximationFunction.IsCorrect ||
 		    sourceFunction.Range != approximationFunction.Range)
 			return;
 
-		Draw(sourceFunction, approximationFunction);
+		UpdatePlot(sourceFunction, approximationFunction);
 	}
 
-	private double GetVariation(PiecewiseFunction function) => _variationCalculator.GetVariation(function);
-
-	private void Draw(PiecewiseFunction sourceFunction, PiecewiseFunction approximationFunction)
+	private void UpdatePlot(PiecewiseFunction sourceFunction, PiecewiseFunction approximationFunction)
 	{
 		Plot.Plot.Clear();
 
@@ -77,13 +75,13 @@ public partial class MainWindow : Window
 		Plot.Plot.Axes.SquareUnits();
 		Plot.Plot.Axes.SetLimits((double) left, (double) right);
 
-		Draw(sourceFunction, Colors.DarkCyan, 2);
-		Draw(approximationFunction, Colors.DarkRed, 1);
+		DrawFunction(sourceFunction, Colors.DarkCyan, 2);
+		DrawFunction(approximationFunction, Colors.Red, 1);
 
 		Plot.Refresh();
 	}
 
-	private void Draw(PiecewiseFunction sourceFunction, Color color, float lineWidth)
+	private void DrawFunction(PiecewiseFunction sourceFunction, Color color, float lineWidth)
 	{
 		foreach (var (interval, (function, _)) in sourceFunction.Parts)
 		{

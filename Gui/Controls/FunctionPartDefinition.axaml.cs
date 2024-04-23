@@ -31,10 +31,10 @@ public class FunctionPartDefinition : TemplatedControl
 
 	private Interval<decimal> GetInterval()
 	{
-		Point<decimal> CreatePoint(decimal value, bool isIncluded) =>
-			new(value, isIncluded ? Inclusion.Included : Inclusion.Excluded);
+		Point<decimal> CreatePoint(NumericUpDown numericUpDown, ToggleButton toggleButton) =>
+			new(numericUpDown.Value!.Value, toggleButton.IsChecked!.Value ? Inclusion.Included : Inclusion.Excluded);
 
-		return new Interval<decimal>(CreatePoint(_leftValue.Value!.Value, _isLeftValueIncluded.IsChecked!.Value),
-			CreatePoint(_rightValue.Value!.Value, _isRightValueIncluded.IsChecked!.Value));
+		return new Interval<decimal>(CreatePoint(_leftValue, _isLeftValueIncluded),
+			CreatePoint(_rightValue, _isRightValueIncluded));
 	}
 }

@@ -19,7 +19,7 @@
                 <TextBlock FontWeight="Bold" Text="Отклонение равно:" />
                 <TextBlock x:Name="Distance" />
             </WrapPanel>
-            <Button Content="Рассчитать" Click="Update" />
+            <Button Content="Рассчитать" Click="UpdateApproximation" />
 
             <WrapPanel>
                 <TextBlock FontWeight="Bold" Text="Функция f" />
