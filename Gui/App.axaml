@@ -6,6 +6,7 @@
     <Application.Styles>
         <FluentTheme />
         <StyleInclude Source="Controls/FunctionPartDefinition.axaml" />
+        <StyleInclude Source="Controls/FunctionBlock.axaml" />
     </Application.Styles>
 
 </Application>

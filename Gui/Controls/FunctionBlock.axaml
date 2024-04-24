@@ -1,0 +1,30 @@
+﻿<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:controls="using:Gui.Controls">
+
+    <Design.PreviewWith>
+        <controls:FunctionBlock />
+    </Design.PreviewWith>
+
+    <Style Selector="controls|FunctionBlock">
+        <Setter Property="Template">
+            <ControlTemplate>
+                <StackPanel>
+                    <WrapPanel>
+                        <TextBlock FontWeight="Bold" Text="{TemplateBinding Label}" />
+
+                        <WrapPanel HorizontalAlignment="Right" IsVisible="False">
+                            <TextBlock Text="(v = " />
+                            <TextBlock Text="" />
+                            <TextBlock Text=")" />
+                        </WrapPanel>
+                    </WrapPanel>
+
+                    <ScrollViewer>
+                        <StackPanel />
+                    </ScrollViewer>
+                </StackPanel>
+            </ControlTemplate>
+        </Setter>
+    </Style>
+</Styles>

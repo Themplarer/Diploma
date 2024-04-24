@@ -3,6 +3,7 @@
         xmlns:vm="using:Gui.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:controls="clr-namespace:Gui.Controls"
         xmlns:plot="clr-namespace:ScottPlot.Avalonia;assembly=ScottPlot.Avalonia"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="Gui.Views.MainWindow"
@@ -16,26 +17,22 @@
     <Grid ColumnDefinitions="200, 0.1, *">
         <StackPanel Grid.Column="0">
             <WrapPanel>
-                <TextBlock FontWeight="Bold" Text="Отклонение равно:" />
+                <TextBlock VerticalAlignment="Center" Text="Изменить вариацию в" />
+                <NumericUpDown x:Name="VariationsRatio" AllowSpin="False" ShowButtonSpinner="False" Margin="1"
+                               Minimum="0" Maximum="1" Value="0.5" />
+                <TextBlock VerticalAlignment="Center" Text="раз" />
+            </WrapPanel>
+
+            <WrapPanel x:Name="DistanceBlock" IsVisible="False">
+                <TextBlock FontWeight="Bold" Text="Отклонение равно: " />
                 <TextBlock x:Name="Distance" />
             </WrapPanel>
+
             <Button Content="Рассчитать" Click="UpdateApproximation" />
 
-            <WrapPanel>
-                <TextBlock FontWeight="Bold" Text="Функция f" />
-                <TextBlock x:Name="SourceVariation" />
-            </WrapPanel>
-            <ScrollViewer>
-                <StackPanel x:Name="SourceFunctionDefinitions" />
-            </ScrollViewer>
-
-            <WrapPanel>
-                <TextBlock FontWeight="Bold" Text="Функция g" />
-                <TextBlock x:Name="ApproximationVariation" />
-            </WrapPanel>
-            <ScrollViewer>
-                <StackPanel x:Name="ApproximationFunctionDefinitions" />
-            </ScrollViewer>
+            <controls:FunctionBlock Label="Исходная функция" x:Name="SourceFunctionBlock" />
+            <controls:FunctionBlock Label="Приближение" IsReadOnly="True" IsVisibleByDefault="False"
+                                    x:Name="ApproximationFunctionBlock" />
         </StackPanel>
 
         <GridSplitter Background="#bbb" ResizeDirection="Columns" Grid.Column="1" />

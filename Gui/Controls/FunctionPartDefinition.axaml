@@ -18,16 +18,21 @@
                 <Border>
                     <Grid ColumnDefinitions="*,Auto,Auto,Auto,*" RowDefinitions="Auto,Auto">
                         <NumericUpDown AllowSpin="False" ShowButtonSpinner="False" Margin="1" Value="0"
+                                       IsReadOnly="{TemplateBinding IsReadOnly}"
                                        Grid.Row="0" Grid.Column="0" />
-                        <ToggleButton Grid.Row="0" Grid.Column="1" />
+                        <ToggleButton IsHitTestVisible="{TemplateBinding CanBeToggled}"
+                                      Grid.Row="0" Grid.Column="1" />
                         <TextBlock FontSize="18" HorizontalAlignment="Stretch" VerticalAlignment="Center"
                                    Grid.Row="0" Grid.Column="2">
                             x
                         </TextBlock>
-                        <ToggleButton Grid.Row="0" Grid.Column="3" />
+                        <ToggleButton IsHitTestVisible="{TemplateBinding CanBeToggled}"
+                                      Grid.Row="0" Grid.Column="3" />
                         <NumericUpDown AllowSpin="False" ShowButtonSpinner="False" Margin="1" Value="0"
+                                       IsReadOnly="{TemplateBinding IsReadOnly}"
                                        Grid.Row="0" Grid.Column="4" />
                         <TextBox TextWrapping="NoWrap" Margin="1" Text="" Watermark="Функция"
+                                 IsReadOnly="{TemplateBinding IsReadOnly}"
                                  Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5" />
                     </Grid>
                 </Border>
