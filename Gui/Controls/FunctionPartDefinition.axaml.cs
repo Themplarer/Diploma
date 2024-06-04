@@ -52,15 +52,14 @@ internal sealed class FunctionPartDefinition : TemplatedControl
 		_function.Text = representation;
 	}
 
-	public FunctionPart GetDefinition(IExpressionParser expressionParser)
+	public FunctionPart GetFunctionPart(IExpressionParser expressionParser)
 	{
 		Point<decimal> CreatePoint(NumericUpDown numericUpDown, ToggleButton toggleButton) =>
 			new(numericUpDown.Value!.Value, toggleButton.IsChecked!.Value ? Inclusion.Included : Inclusion.Excluded);
 
-		Interval<decimal> GetInterval() =>
-			new(CreatePoint(_leftValue, _isLeftValueIncluded), CreatePoint(_rightValue, _isRightValueIncluded));
-
-		return new FunctionPart(GetInterval(), expressionParser.Parse(_function.Text!));
+		var interval = new Interval<decimal>(CreatePoint(_leftValue, _isLeftValueIncluded),
+			CreatePoint(_rightValue, _isRightValueIncluded));
+		return new FunctionPart(interval, expressionParser.Parse(_function.Text!));
 	}
 
 	protected override void OnLoaded(RoutedEventArgs e)

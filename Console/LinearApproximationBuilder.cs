@@ -1,22 +1,16 @@
-﻿using Common;
+﻿using Application;
+using Application.DistanceEvaluators;
+using Common;
 using Domain;
 using Intervals.Intervals;
 
-namespace Application;
+namespace Console;
 
-public class ApproximationBuilder
+internal sealed class LinearApproximationBuilder
 {
-	private readonly VariationCalculator _variationCalculator;
 	private readonly IDistanceEvaluator _distanceEvaluator;
-	private readonly IExpressionParser _expressionParser;
 
-	public ApproximationBuilder(VariationCalculator variationCalculator, IDistanceEvaluator distanceEvaluator,
-		IExpressionParser expressionParser)
-	{
-		_variationCalculator = variationCalculator;
-		_distanceEvaluator = distanceEvaluator;
-		_expressionParser = expressionParser;
-	}
+	public LinearApproximationBuilder(IDistanceEvaluator distanceEvaluator) => _distanceEvaluator = distanceEvaluator;
 
 	public PiecewiseFunction BuildLinearApproximation(PiecewiseFunction sourceFunction, decimal newVariation) =>
 		GenerateLinearApproximations(sourceFunction, newVariation)

@@ -1,11 +1,12 @@
 ﻿using System.Diagnostics;
 using Application;
+using Application.DistanceEvaluators;
 using Domain;
 using Intervals.Intervals;
 
 namespace Console;
 
-public class FileBasedLinearApproximator
+internal sealed class FileBasedLinearApproximator
 {
 	private static readonly Interval<decimal> LeftInterval = new(-1, 0);
 	private static readonly Interval<decimal> MiddlePoint = new(0);
@@ -13,15 +14,15 @@ public class FileBasedLinearApproximator
 
 	private readonly IExpressionParser _expressionParser;
 	private readonly VariationCalculator _variationCalculator;
-	private readonly ApproximationBuilder _approximationBuilder;
+	private readonly LinearApproximationBuilder _linearApproximationBuilder;
 	private readonly IDistanceEvaluator _distanceEvaluator;
 
 	public FileBasedLinearApproximator(IExpressionParser expressionParser, VariationCalculator variationCalculator,
-		ApproximationBuilder approximationBuilder, IDistanceEvaluator distanceEvaluator)
+		LinearApproximationBuilder linearApproximationBuilder, IDistanceEvaluator distanceEvaluator)
 	{
 		_expressionParser = expressionParser;
 		_variationCalculator = variationCalculator;
-		_approximationBuilder = approximationBuilder;
+		_linearApproximationBuilder = linearApproximationBuilder;
 		_distanceEvaluator = distanceEvaluator;
 	}
 
@@ -47,7 +48,7 @@ public class FileBasedLinearApproximator
 				var approximationVariation = variation * variationsRatio;
 				streamWriter.WriteLine($"Ищем наилучшее приближение с вариацией, ограниченной {approximationVariation}");
 
-				var approximation = _approximationBuilder.BuildLinearApproximation(sourceFunction, approximationVariation);
+				var approximation = _linearApproximationBuilder.BuildLinearApproximation(sourceFunction, approximationVariation);
 				streamWriter.WriteLine("Найдена функция:");
 
 				foreach (var (interval, (_, function)) in approximation.Parts)

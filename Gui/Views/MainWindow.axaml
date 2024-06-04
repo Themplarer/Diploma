@@ -48,7 +48,7 @@
                     <TextBlock x:Name="Distance" />
                 </WrapPanel>
 
-                <Button Content="Рассчитать" Click="UpdateApproximation" />
+                <Button Content="Рассчитать" Click="UpdateApproximationAsync" />
 
                 <controls:FunctionBlock Label="Исходная функция" x:Name="SourceFunctionBlock" />
                 <controls:FunctionBlock Label="Приближение" IsReadOnly="True" IsVisibleByDefault="False"

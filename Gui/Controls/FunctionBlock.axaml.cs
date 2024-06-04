@@ -8,7 +8,7 @@ using Domain;
 
 namespace Gui.Controls;
 
-public class FunctionBlock : TemplatedControl
+internal class FunctionBlock : TemplatedControl
 {
 	private TextBlock _variationBlock = null!;
 	private StackPanel _parts = null!;
@@ -64,7 +64,8 @@ public class FunctionBlock : TemplatedControl
 		new(_parts.Children
 			.SkipLast(1)
 			.Cast<FunctionPartDefinition>()
-			.Select(f => f.GetDefinition(expressionParser))
+			.Select(f => f.GetFunctionPart(expressionParser))
+			.OrderBy(f => f.Interval)
 			.ToArray());
 
 	public void SetVariation(decimal variation)
@@ -98,10 +99,7 @@ public class FunctionBlock : TemplatedControl
 
 	private void AppendPart(FunctionPart? functionPart = null)
 	{
-		var functionPartDefinition = new FunctionPartDefinition
-		{
-			IsReadOnly = IsReadOnly
-		};
+		var functionPartDefinition = new FunctionPartDefinition {IsReadOnly = IsReadOnly};
 
 		functionPartDefinition.Loaded += (_, _) =>
 		{

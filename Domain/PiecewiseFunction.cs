@@ -3,7 +3,7 @@ using Intervals.Intervals;
 
 namespace Domain;
 
-public record PiecewiseFunction(FunctionPart[] Parts)
+public record PiecewiseFunction(FunctionPart[] Parts) : IFunction
 {
 	public Interval<decimal> Range => TotalRange.Single();
 

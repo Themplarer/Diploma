@@ -24,11 +24,6 @@ public static class EnumerableExtensions
 		yield return (prevValue!, default);
 	}
 
-	public static List<T> AddIf<T>(this List<T> list, T value, bool condition)
-	{
-		if (condition)
-			list.Add(value);
-
-		return list;
-	}
+	public static IEnumerable<(T Element, int Index)> Enumerate<T>(this IEnumerable<T> items) =>
+		items.Select((t, i) => (t, i));
 }
