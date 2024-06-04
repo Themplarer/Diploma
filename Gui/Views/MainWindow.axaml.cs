@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using Application;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
@@ -9,13 +10,13 @@ namespace Gui.Views;
 
 public partial class MainWindow : Window
 {
-	private readonly ExpressionParser _expressionParser;
+	private readonly IExpressionParser _expressionParser;
 	private readonly VariationCalculator _variationCalculator;
-	private readonly DistanceEvaluator _distanceEvaluator;
+	private readonly IDistanceEvaluator _distanceEvaluator;
 	private readonly ApproximationBuilder _approximationBuilder;
 
-	public MainWindow(ExpressionParser expressionParser, VariationCalculator variationCalculator,
-		DistanceEvaluator distanceEvaluator, ApproximationBuilder approximationBuilder)
+	public MainWindow(IExpressionParser expressionParser, VariationCalculator variationCalculator,
+		IDistanceEvaluator distanceEvaluator, ApproximationBuilder approximationBuilder)
 	{
 		_expressionParser = expressionParser;
 		_variationCalculator = variationCalculator;
@@ -39,8 +40,11 @@ public partial class MainWindow : Window
 			var sourceVariation = _variationCalculator.GetVariation(sourceFunction);
 			SourceFunctionBlock.SetVariation(sourceVariation);
 
-			var approximationFunction = _approximationBuilder.BuildLinearApproximation(sourceFunction,
-				sourceVariation * (double) VariationsRatio.Value!.Value);
+			var stopwatch = Stopwatch.StartNew();
+			var approximationFunction = BuildApproximation(sourceFunction, sourceVariation);
+			stopwatch.Stop();
+
+			StatusBar.Text = stopwatch.ToString();
 			ApproximationFunctionBlock.FillParts(approximationFunction);
 			ApproximationFunctionBlock.SetVariation(_variationCalculator.GetVariation(approximationFunction));
 			ApproximationFunctionBlock.IsVisible = true;
@@ -55,6 +59,15 @@ public partial class MainWindow : Window
 		{
 			// ignored
 		}
+	}
+
+	private PiecewiseFunction BuildApproximation(PiecewiseFunction sourceFunction, decimal sourceVariation)
+	{
+		var newVariation = ByRatio.IsChecked is true
+			? sourceVariation * VariationsRatio.Value!.Value
+			: NewVariation.Value!.Value;
+		var approximationFunction = _approximationBuilder.BuildLinearApproximation(sourceFunction, newVariation);
+		return approximationFunction;
 	}
 
 	private void DrawSourceFunction(object? sender, EventArgs e)

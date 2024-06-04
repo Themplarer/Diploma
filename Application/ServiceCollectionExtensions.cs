@@ -6,9 +6,8 @@ public static class ServiceCollectionExtensions
 {
 	public static void AddApplicationServices(this IServiceCollection collection)
 	{
-		collection.AddSingleton<ExpressionParser>();
 		collection.AddSingleton<VariationCalculator>();
-		collection.AddSingleton<DistanceEvaluator>();
+		collection.AddSingleton<IDistanceEvaluator, UniformDistanceEvaluator>();
 		collection.AddSingleton<ApproximationBuilder>();
 	}
 }

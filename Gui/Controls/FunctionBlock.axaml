@@ -13,11 +13,14 @@
                     <WrapPanel>
                         <TextBlock FontWeight="Bold" Text="{TemplateBinding Label}" />
 
-                        <WrapPanel HorizontalAlignment="Right" IsVisible="False">
-                            <TextBlock Text="(v = " />
-                            <TextBlock Text="" />
-                            <TextBlock Text=")" />
-                        </WrapPanel>
+                        <TextBlock IsVisible="False">
+                            <TextBlock.Text>
+                                <MultiBinding StringFormat="({0} = {1})">
+                                    <TemplateBinding Property="VariationSymbol" />
+                                    <TemplateBinding Property="Variation" />
+                                </MultiBinding>
+                            </TextBlock.Text>
+                        </TextBlock>
                     </WrapPanel>
 
                     <ScrollViewer>

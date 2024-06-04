@@ -1,6 +1,7 @@
 using Application;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
+using FunctionParser;
 using Gui.Views;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -14,6 +15,7 @@ public partial class App : Avalonia.Application
 	{
 		var collection = new ServiceCollection();
 		collection.AddApplicationServices();
+		collection.AddParser();
 
 		var serviceProvider = collection.BuildServiceProvider();
 

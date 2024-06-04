@@ -8,36 +8,58 @@
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="Gui.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
+        Icon="/Assets/logo.png"
         Title="Function Approximator">
 
     <Design.DataContext>
         <vm:MainWindowViewModel />
     </Design.DataContext>
 
-    <Grid ColumnDefinitions="200, 0.1, *">
-        <StackPanel Grid.Column="0">
-            <WrapPanel>
-                <TextBlock VerticalAlignment="Center" Text="Изменить вариацию в" />
-                <NumericUpDown x:Name="VariationsRatio" AllowSpin="False" ShowButtonSpinner="False" Margin="1"
-                               Minimum="0" Maximum="1" Value="0.5" />
-                <TextBlock VerticalAlignment="Center" Text="раз" />
-            </WrapPanel>
+    <DockPanel>
+        <Border Background="Gray" DockPanel.Dock="Bottom">
+            <TextBlock x:Name="StatusBar" />
+        </Border>
 
-            <WrapPanel x:Name="DistanceBlock" IsVisible="False">
-                <TextBlock FontWeight="Bold" Text="Отклонение равно: " />
-                <TextBlock x:Name="Distance" />
-            </WrapPanel>
+        <Grid ColumnDefinitions="200, 0.1, *">
+            <StackPanel Grid.Column="0">
+                <RadioButton GroupName="VariationChangeMode" IsChecked="True" x:Name="ByRatio">
+                    <RadioButton.Content>
+                        <WrapPanel>
+                            <TextBlock VerticalAlignment="Center" Text="Изменить вариацию в " />
+                            <NumericUpDown x:Name="VariationsRatio" AllowSpin="False" ShowButtonSpinner="False"
+                                           Minimum="0" Maximum="1" Value="0.5" />
+                            <TextBlock VerticalAlignment="Center" Text=" раз" />
+                        </WrapPanel>
+                    </RadioButton.Content>
+                </RadioButton>
 
-            <Button Content="Рассчитать" Click="UpdateApproximation" />
+                <RadioButton GroupName="VariationChangeMode">
+                    <RadioButton.Content>
+                        <WrapPanel>
+                            <TextBlock VerticalAlignment="Center" Text="Ограничить вариацию " />
+                            <NumericUpDown x:Name="NewVariation" AllowSpin="False" ShowButtonSpinner="False" Minimum="0"
+                                           Value="0" />
+                        </WrapPanel>
+                    </RadioButton.Content>
+                </RadioButton>
 
-            <controls:FunctionBlock Label="Исходная функция" x:Name="SourceFunctionBlock" />
-            <controls:FunctionBlock Label="Приближение" IsReadOnly="True" IsVisibleByDefault="False"
-                                    x:Name="ApproximationFunctionBlock" />
-        </StackPanel>
+                <WrapPanel x:Name="DistanceBlock" IsVisible="False">
+                    <TextBlock FontWeight="Bold" Text="Отклонение равно: " />
+                    <TextBlock x:Name="Distance" />
+                </WrapPanel>
 
-        <GridSplitter Background="#bbb" ResizeDirection="Columns" Grid.Column="1" />
+                <Button Content="Рассчитать" Click="UpdateApproximation" />
 
-        <plot:AvaPlot x:Name="Plot" Grid.Column="2" />
-    </Grid>
+                <controls:FunctionBlock Label="Исходная функция" x:Name="SourceFunctionBlock" />
+                <controls:FunctionBlock Label="Приближение" IsReadOnly="True" IsVisibleByDefault="False"
+                                        VariationSymbol="u" x:Name="ApproximationFunctionBlock" />
+            </StackPanel>
+
+            <GridSplitter Background="#bbb" ResizeDirection="Columns" Grid.Column="1" />
+
+            <plot:AvaPlot x:Name="Plot" Grid.Column="2" />
+        </Grid>
+    </DockPanel>
+
 
 </Window>

@@ -13,7 +13,7 @@ internal static class PlottableAdderExtensions
 		foreach (var (interval, (function, _)) in piecewiseFunction.Parts)
 		{
 			var xs = interval.Close().Split(Constants.PlotStepSize).ToArray();
-			var ys = xs.Select(x => function((double) x)).ToArray();
+			var ys = xs.Select(function).ToArray();
 			var scatter = xs.Length == 1 ? plottableAdder.ScatterPoints(xs, ys) : plottableAdder.ScatterLine(xs, ys);
 			scatter.Color = color;
 			scatter.LineWidth = lineWidth;

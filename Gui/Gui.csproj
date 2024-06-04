@@ -30,7 +30,11 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Application\Application.csproj" />
+        <ProjectReference Include="..\FunctionParser\FunctionParser.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <Folder Include="Assets" />
     </ItemGroup>
 
 </Project>

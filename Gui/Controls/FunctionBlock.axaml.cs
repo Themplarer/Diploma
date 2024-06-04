@@ -10,8 +10,7 @@ namespace Gui.Controls;
 
 public class FunctionBlock : TemplatedControl
 {
-	private WrapPanel _variationBlock = null!;
-	private TextBlock _variationLabel = null!;
+	private TextBlock _variationBlock = null!;
 	private StackPanel _parts = null!;
 
 	public event EventHandler? Changed;
@@ -23,6 +22,24 @@ public class FunctionBlock : TemplatedControl
 	{
 		get => GetValue(LabelProperty);
 		set => SetValue(LabelProperty, value);
+	}
+
+	public static readonly StyledProperty<string> VariationSymbolProperty =
+		AvaloniaProperty.Register<FunctionBlock, string>(nameof(VariationSymbolProperty), "v");
+
+	public string VariationSymbol
+	{
+		get => GetValue(VariationSymbolProperty);
+		set => SetValue(VariationSymbolProperty, value);
+	}
+
+	public static readonly StyledProperty<decimal> VariationProperty =
+		AvaloniaProperty.Register<FunctionBlock, decimal>(nameof(Variation));
+
+	private decimal Variation
+	{
+		get => GetValue(VariationProperty);
+		set => SetValue(VariationProperty, value);
 	}
 
 	public static readonly StyledProperty<bool> IsReadOnlyProperty =
@@ -43,18 +60,17 @@ public class FunctionBlock : TemplatedControl
 		set => SetValue(IsVisibleByDefaultProperty, value);
 	}
 
-	public PiecewiseFunction ParseFunction(ExpressionParser expressionParser) =>
+	public PiecewiseFunction ParseFunction(IExpressionParser expressionParser) =>
 		new(_parts.Children
 			.SkipLast(1)
 			.Cast<FunctionPartDefinition>()
 			.Select(f => f.GetDefinition(expressionParser))
 			.ToArray());
 
-	public void SetVariation(double variation)
+	public void SetVariation(decimal variation)
 	{
+		Variation = variation;
 		_variationBlock.IsVisible = true;
-		// ReSharper disable once SpecifyACultureInStringConversionExplicitly
-		_variationLabel.Text = variation.ToString();
 	}
 
 	public void HideVariation() => _variationBlock.IsVisible = false;
@@ -71,9 +87,8 @@ public class FunctionBlock : TemplatedControl
 	{
 		base.OnLoaded(e);
 		var children = this.GetTemplateChildren().ToArray();
-		_variationBlock = (WrapPanel) children[3];
-		_variationLabel = (TextBlock) children[5];
-		_parts = (StackPanel) children[8];
+		_variationBlock = (TextBlock) children[3];
+		_parts = (StackPanel) children[5];
 
 		if (!IsReadOnly)
 			AppendPart();

@@ -1,3 +1,3 @@
 ﻿namespace Domain;
 
-public readonly record struct RepresentableFunction(Func<double, double> Method, string Representation);
+public readonly record struct RepresentableFunction(Func<decimal, decimal> Method, string Representation);

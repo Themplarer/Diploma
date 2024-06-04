@@ -52,7 +52,7 @@ internal sealed class FunctionPartDefinition : TemplatedControl
 		_function.Text = representation;
 	}
 
-	public FunctionPart GetDefinition(ExpressionParser expressionParser)
+	public FunctionPart GetDefinition(IExpressionParser expressionParser)
 	{
 		Point<decimal> CreatePoint(NumericUpDown numericUpDown, ToggleButton toggleButton) =>
 			new(numericUpDown.Value!.Value, toggleButton.IsChecked!.Value ? Inclusion.Included : Inclusion.Excluded);

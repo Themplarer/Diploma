@@ -2,7 +2,12 @@
 
 public static class EnumerableExtensions
 {
-	public static IEnumerable<(T First, T Second)> GetBigrams<T>(this IEnumerable<T> items)
+	public static IEnumerable<(T First, T Second)> GetBigrams<T>(this IEnumerable<T> items) =>
+		items.GetBigramsWithEndingNull()
+			.SkipLast(1)
+			.Cast<(T, T)>();
+
+	public static IEnumerable<(T First, T? Second)> GetBigramsWithEndingNull<T>(this IEnumerable<T> items)
 	{
 		var isFirst = true;
 		T? prevValue = default;
@@ -15,15 +20,15 @@ public static class EnumerableExtensions
 			isFirst = false;
 			prevValue = item;
 		}
+
+		yield return (prevValue!, default);
 	}
 
-	public static IEnumerable<(T First, T Second)> GetPairs<T>(this IReadOnlyCollection<T> items)
+	public static List<T> AddIf<T>(this List<T> list, T value, bool condition)
 	{
-		foreach (var (first, index) in items.Enumerate())
-		foreach (var second in items.Skip(index + 1))
-			yield return (first, second);
-	}
+		if (condition)
+			list.Add(value);
 
-	public static IEnumerable<(T Element, int Index)> Enumerate<T>(this IEnumerable<T> items) =>
-		items.Select((t, i) => (t, i));
+		return list;
+	}
 }

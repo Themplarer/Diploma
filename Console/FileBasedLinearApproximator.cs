@@ -11,13 +11,13 @@ public class FileBasedLinearApproximator
 	private static readonly Interval<decimal> MiddlePoint = new(0);
 	private static readonly Interval<decimal> RightInterval = new(0, 1, IntervalInclusion.LeftOpened);
 
-	private readonly ExpressionParser _expressionParser;
+	private readonly IExpressionParser _expressionParser;
 	private readonly VariationCalculator _variationCalculator;
 	private readonly ApproximationBuilder _approximationBuilder;
-	private readonly DistanceEvaluator _distanceEvaluator;
+	private readonly IDistanceEvaluator _distanceEvaluator;
 
-	public FileBasedLinearApproximator(ExpressionParser expressionParser, VariationCalculator variationCalculator,
-		ApproximationBuilder approximationBuilder, DistanceEvaluator distanceEvaluator)
+	public FileBasedLinearApproximator(IExpressionParser expressionParser, VariationCalculator variationCalculator,
+		ApproximationBuilder approximationBuilder, IDistanceEvaluator distanceEvaluator)
 	{
 		_expressionParser = expressionParser;
 		_variationCalculator = variationCalculator;
@@ -66,13 +66,13 @@ public class FileBasedLinearApproximator
 		}
 	}
 
-	private (PiecewiseFunction Function, double VariationsRatio)? RecogniseLine(string line) =>
+	private (PiecewiseFunction Function, decimal VariationsRatio)? RecogniseLine(string line) =>
 		line.Split(' ') is {Length: 6} strings
 			? (new PiecewiseFunction(new FunctionPart[]
 			{
 				new(LeftInterval, _expressionParser.Parse($"{strings[0]}*x+{strings[1]}")),
 				new(MiddlePoint, _expressionParser.Parse(strings[2])),
 				new(RightInterval, _expressionParser.Parse($"{strings[4]}*x+{strings[3]}")),
-			}), double.Parse(strings[5]))
+			}), decimal.Parse(strings[5]))
 			: null;
 }
